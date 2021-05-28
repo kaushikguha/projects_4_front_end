@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import './App.css';
-import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Switch, Route, Link, Redirect } from "react-router-dom";
 // import { useHistory } from "react-router-dom"
 import Login from "./components/Login";
@@ -8,6 +8,8 @@ import SignUp from "./components/SignUp";
 import UserPmt from "./components/UserPmt";
 import Home from "./components/Home";
 import UserTable from "./components/UserTable";
+import Logout from "./components/Logout";
+import NewPmt from "./components/NewPmt";
 
 console.log (process.env.NODE_ENV)
 let baseUrl=""
@@ -178,6 +180,17 @@ class App extends Component{
 
     }
 
+  addPmt = (newPmt) => {
+  const copyPmt = [...this.state.pmt.amt_paid]
+  const copySSN= [...this.state.pmt.ssn.ssn]
+  copyPmt.push(newPmt.amt_paid)
+  copySSN.push(newPmt.ssn.ssn)
+  this.setState({
+    amt_paid: copyPmt,
+    ssn:copySSN
+  })
+}
+
     showEditForm = (pmt)=>{
       this.setState({
         modalOpen:true,
@@ -197,6 +210,17 @@ class App extends Component{
             <div className="container">
               <Link className="navbar-brand" to={"/"}>Employee Database</Link>
               <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
+                {(this.state.userLoggedIn)
+                ?
+                <ul className="navbar-nav ml-auto">
+                  <li className="nav-item">
+                    <Link className="nav-link" to={"/logout"}>Logout</Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link className="nav-link" to={"/newpmt"}>Create a Payment</Link>
+                  </li>
+                </ul>
+                :
                 <ul className="navbar-nav ml-auto">
                   <li className="nav-item">
                     <Link className="nav-link" to={"/sign-in"}>Sign in</Link>
@@ -205,6 +229,8 @@ class App extends Component{
                     <Link className="nav-link" to={"/register"}>Sign up</Link>
                   </li>
                 </ul>
+              }
+
               </div>
             </div>
           </nav>
@@ -212,7 +238,9 @@ class App extends Component{
           <div className="outer">
             <div className="inner">
               <Switch>
-                <Route exact path='/home'> <Home/></Route>
+                <Route exact path='/'> <Home/></Route>
+                <Route exact path='/newpmt'> <NewPmt/></Route>
+                <Route exact path='/logout'> <Logout/></Route>
                 <Route exact path='/pmt' component={() => <UserPmt pmt={this.state.pmt} />}/>
                 <Route exact path='/pmttable'> <UserTable/></Route>
                 <Route exact path='/sign-in' component= {()=> <Login loggingUser={this.loggingUser}/>}/>

@@ -32,7 +32,7 @@ export default function UserPmt (props) {
                   <button onClick={() => props.deletePmt(pmt._id)}>DELETE</button>
                 </td>
                 <td >
-                  <button onClick={()=>this.showEditForm(pmt)}}>EDIT</button>
+                  <button onClick={()=>props.showEditForm(pmt)}>EDIT</button>
                 </td>
 
               </tr>
