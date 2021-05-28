@@ -1,25 +1,252 @@
-import logo from './logo.svg';
+import React, {Component} from 'react'
 import './App.css';
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import { BrowserRouter as Router, Switch, Route, Link, Redirect } from "react-router-dom";
+// import { useHistory } from "react-router-dom"
+import Login from "./components/Login";
+import SignUp from "./components/SignUp";
+import UserPmt from "./components/UserPmt";
+import Home from "./components/Home";
+import UserTable from "./components/UserTable";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+console.log (process.env.NODE_ENV)
+let baseUrl=""
+
+if(process.env.NODE_ENV=== 'development'){
+  baseUrl='http://localhost:8002/api/v1'
+} else {
+  baseUrl='heroku url here'
 }
+
+
+class App extends Component{
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      pmt:[],
+      userLoggedIn: false,
+      modalOpen: false,
+      pmtToEdit: {},
+      currentUser: '',
+      page: 'home',
+    }
+  }
+
+  getPmt=()=>{
+    const url = baseUrl + '/pmt/'
+    console.log(url)
+
+    fetch(url, {
+      credentials: 'include'
+    })
+    .then(res=>{
+      console.log(res)
+      if (res.status===200){
+        return res.json()
+      }
+      else {
+        return[]
+      }
+    }).then(data=> {
+      this.setState({
+        pmt: data.data,
+      })
+    })
+  }
+
+  loggingUser= async (e) =>{
+    // const history= useHistory()
+    console.log('logging User')
+    e.preventDefault()
+    const url = baseUrl + '/users/login'
+    const loginBody={
+      username: e.target.username.value,
+      password: e.target.password.value
+    }
+    try {
+      const response= await fetch(url, {
+        method: 'POST',
+        body: JSON.stringify(loginBody),
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        credentials: "include"
+      })
+      console.log(response)
+      console.log('Body: ', response.body)
+
+      if (response.status === 200) {
+        this.props.history.push('/pmt')
+        this.getPmt()
+        this.setState({userLoggedIn: true})
+
+      }
+    }
+    catch (err) {
+      console.log('Error =>', err)
+    }
+  }
+
+  register =async(e) => {
+    e.preventDefault()
+    const url= baseUrl + '/users/register'
+    console.log(e.target.ssn)
+    try{
+      const response =await fetch(url, {
+        method: 'POST',
+        body: JSON.stringify({
+          ssn: e.target.ssn.value,
+          first_name: e.target.first_name.value,
+          last_name: e.target.last_name.value,
+          email:e.target.email.value,
+          username:e.target.username.value,
+          password:e.target.password.value
+        }),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      if (response.status === 200) {
+        this.getPmt()
+      }
+    }
+    catch(err){
+      console.log('Error =>', err)
+    }
+  }
+
+  deletePmt = async (id) => {
+    const url = baseUrl + '/pmt/' + id
+
+    try{
+      const response = await fetch( url, {
+        method: 'DELETE',
+        // credentials: "include"
+      })
+
+      if (response.status===200){
+
+        const findIndex = this.state.pmt.findIndex(pmt => pmt._id === id)
+        const copyPmt = [...this.state.pmt]
+        copyPmt.splice(findIndex, 1)
+
+        this.setState({
+          pmt: copyPmt
+        })
+      }
+
+    }
+    catch(err){
+      console.log('Error => ', err);
+    }
+  }
+
+  handleSubmit = async (e) => {
+    e.preventDefault()
+
+      const url = baseUrl + '/pmt/' + this.state.pmtToEdit._id
+
+      try{
+
+        const response = await fetch( url , {
+          method: 'PUT',
+          body: JSON.stringify({
+            amt_paid: e.target.amt_paid.value,
+            ssn: e.target.ssn.values
+          }),
+          headers: {
+            'Content-Type' : 'application/json'
+          }
+        })
+
+        if (response.status===200){
+          const updatedPmt = await response.json()
+          const findIndex = this.state.pmt.findIndex(pmt => pmt._id === updatedPmt.data._id)
+          const copyPmt = [...this.state.pmt]
+          copyPmt[findIndex] = updatedPmt.data
+
+          this.setState({
+            pmt: copyPmt,
+            modalOpen:false
+          })
+        }
+      }
+      catch(err){
+        console.log('Error => ', err);
+      }
+
+    }
+
+    showEditForm = (pmt)=>{
+      this.setState({
+        modalOpen:true,
+        amount: pmt.name,
+        ssn: pmt.ssn,
+        pmtToEdit:pmt
+      })
+    }
+
+
+  render(){
+    console.log(this.props)
+    return (
+      <Router>
+        <div className="App">
+          <nav className="navbar navbar-expand-lg navbar-light fixed-top">
+            <div className="container">
+              <Link className="navbar-brand" to={"/"}>Employee Database</Link>
+              <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
+                <ul className="navbar-nav ml-auto">
+                  <li className="nav-item">
+                    <Link className="nav-link" to={"/sign-in"}>Sign in</Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link className="nav-link" to={"/register"}>Sign up</Link>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </nav>
+
+          <div className="outer">
+            <div className="inner">
+              <Switch>
+                <Route exact path='/home'> <Home/></Route>
+                <Route exact path='/pmt' component={() => <UserPmt pmt={this.state.pmt} />}/>
+                <Route exact path='/pmttable'> <UserTable/></Route>
+                <Route exact path='/sign-in' component= {()=> <Login loggingUser={this.loggingUser}/>}/>
+                <Route exact path='/register' component={() => <SignUp register={this.register} />}/>
+
+              </Switch>
+
+              {(this.state.userLoggedIn)?
+              <UserPmt pmt={this.state.pmt} />
+              : null
+              }
+
+              {this.state.modalOpen &&
+
+              <form onSubmit={this.handleSubmit}>
+                <label>Amount: </label>
+                <input name="name" value={this.state.name} onChange={this.handleChange}/> <br/>
+
+                <label>Date: </label>
+                <input name="description" value={this.state.description} onChange={this.handleChange}/>
+
+                <button>submit</button>
+
+              </form>
+            }
+
+            </div>
+          </div>
+        </div>
+      </Router>
+    );
+  }
+  }
+
+
 
 export default App;
