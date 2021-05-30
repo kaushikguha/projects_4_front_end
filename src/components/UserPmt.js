@@ -29,7 +29,7 @@ export default function UserPmt (props) {
                 <td> {pmt.ssn.ssn}</td>
                 <td> {pmt.ssn.email}</td>
                 <td >
-                  <button onClick={() => props.deletePmt(pmt._id)}>DELETE</button>
+                  <button onClick={() => props.deletePmt(pmt.id)}>DELETE</button>
                 </td>
                 <td >
                   <button onClick={()=>props.showEditForm(pmt)}>EDIT</button>

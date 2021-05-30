@@ -16,8 +16,8 @@ export default class NewForm extends Component {
   handleChange (e) {
     // console.log(event.target.value)
     this.setState({
-      amt_paid: e.target.amt_paid.value,
-      ssn: e.target.ssn.values
+
+      [e.target.name]: e.target.value
     })
   }
 

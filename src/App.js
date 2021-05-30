@@ -7,7 +7,6 @@ import Login from "./components/Login";
 import SignUp from "./components/SignUp";
 import UserPmt from "./components/UserPmt";
 import Home from "./components/Home";
-import UserTable from "./components/UserTable";
 import Logout from "./components/Logout";
 import NewPmt from "./components/NewPmt";
 
@@ -124,12 +123,12 @@ class App extends Component{
     try{
       const response = await fetch( url, {
         method: 'DELETE',
-        // credentials: "include"
+        credentials: "include"
       })
 
       if (response.status===200){
 
-        const findIndex = this.state.pmt.findIndex(pmt => pmt._id === id)
+        const findIndex = this.state.pmt.findIndex(pmt => pmt.id === id)
         const copyPmt = [...this.state.pmt]
         copyPmt.splice(findIndex, 1)
 
@@ -146,25 +145,29 @@ class App extends Component{
 
   handleSubmit = async (e) => {
     e.preventDefault()
+      console.log(this.state.pmtToEdit)
 
-      const url = baseUrl + '/pmt/' + this.state.pmtToEdit._id
+      const url = baseUrl + '/pmt/' + this.state.pmtToEdit.id
+      console.log(url)
 
       try{
 
         const response = await fetch( url , {
           method: 'PUT',
           body: JSON.stringify({
+
             amt_paid: e.target.amt_paid.value,
-            ssn: e.target.ssn.values
+            ssn: e.target.ssn.value
           }),
           headers: {
             'Content-Type' : 'application/json'
-          }
+          },
+          credentials:"include"
         })
 
         if (response.status===200){
           const updatedPmt = await response.json()
-          const findIndex = this.state.pmt.findIndex(pmt => pmt._id === updatedPmt.data._id)
+          const findIndex = this.state.pmt.findIndex(pmt => pmt.id === updatedPmt.data.id)
           const copyPmt = [...this.state.pmt]
           copyPmt[findIndex] = updatedPmt.data
 
@@ -191,20 +194,64 @@ class App extends Component{
   })
 }
 
+  handleChange = (e)=>{
+    this.setState({
+      [e.target.name]: e.target.value
+    })
+  }
+
     showEditForm = (pmt)=>{
       this.setState({
         modalOpen:true,
-        amount: pmt.name,
+        amt_paid: pmt.amt_paid,
         ssn: pmt.ssn,
         pmtToEdit:pmt
       })
     }
 
+    logout= async (e) =>{
+      // const history= useHistory()
+      console.log('logging User Out')
+      // e.preventDefault()
+      const url = this.props.baseUrl + '/users/logout';
+      let confLogout = window.confirm("Are you sure you want to sign out?");
+
+      if (confLogout) {
+        const url = this.props.baseUrl + '/users/logout';
+
+      try {
+        const response = await fetch( url, {
+          method: 'GET',
+          headers: {
+            'Content-Type' : 'application/json'
+          },
+        })
+        console.log(response)
+
+
+        if (response.status === 200) {
+          // this.props.history.push('/login')
+          // this.logout()
+          this.setState({userLoggedIn: false})
+          console.log(this.props.history)
+          this.props.history.push('/sign-in')
+
+        }
+      }
+      catch (err) {
+        console.log('Error =>', err)
+      }
+    }
+  }
+
+componentDidMount(){
+  this.getPmt()
+}
 
   render(){
     console.log(this.props)
     return (
-      <Router>
+
         <div className="App">
           <nav className="navbar navbar-expand-lg navbar-light fixed-top">
             <div className="container">
@@ -240,27 +287,22 @@ class App extends Component{
               <Switch>
                 <Route exact path='/'> <Home/></Route>
                 <Route exact path='/newpmt'> <NewPmt/></Route>
-                <Route exact path='/logout'> <Logout/></Route>
-                <Route exact path='/pmt' component={() => <UserPmt pmt={this.state.pmt} />}/>
-                <Route exact path='/pmttable'> <UserTable/></Route>
+                <Route exact path='/logout' component= {()=> <Logout logout={this.logout}/>}/>
+                <Route exact path='/pmt' component={() => <UserPmt pmt={this.state.pmt} deletePmt={this.deletePmt} showEditForm={this.showEditForm} />}/>
                 <Route exact path='/sign-in' component= {()=> <Login loggingUser={this.loggingUser}/>}/>
                 <Route exact path='/register' component={() => <SignUp register={this.register} />}/>
 
               </Switch>
 
-              {(this.state.userLoggedIn)?
-              <UserPmt pmt={this.state.pmt} />
-              : null
-              }
 
               {this.state.modalOpen &&
 
               <form onSubmit={this.handleSubmit}>
                 <label>Amount: </label>
-                <input name="name" value={this.state.name} onChange={this.handleChange}/> <br/>
+                <input name="amt_paid" value={this.state.amt_paid} onChange={this.handleChange}/> <br/>
 
-                <label>Date: </label>
-                <input name="description" value={this.state.description} onChange={this.handleChange}/>
+                <label>SSN: </label>
+                <input name="ssn" value={this.state.ssn.ssn} onChange={this.handleChange}/>
 
                 <button>submit</button>
 
@@ -270,7 +312,7 @@ class App extends Component{
             </div>
           </div>
         </div>
-      </Router>
+
     );
   }
   }
