@@ -6,42 +6,43 @@ export default class NewForm extends Component {
 
     this.state = {
       amt_paid: '',
-      ssn:''
+      pmt_date:''
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
-
   }
 
   handleChange (e) {
     // console.log(event.target.value)
     this.setState({
-
       [e.target.name]: e.target.value
     })
   }
 
   handleSubmit (e) {
     e.preventDefault()
+    this.props.appLogin()
     console.log(this.props)
     // fetch
-    fetch(this.props.baseUrl + '/pmt', {
+    fetch('http://localhost:8002/api/v1/pmt/', {
       method: 'POST',
       body: JSON.stringify({
         amt_paid: e.target.amt_paid.value,
-        ssn: e.target.ssn.values
+        pmt_date: e.target.pmt_date.value
       }),
 
       headers: {
         'Content-Type': 'application/json'
-      }
+      },
+      credentials: 'include'
     }).then( res => {
+      console.log(res)
       return res.json()
     }).then( data => {
       this.props.addPmt(data)
       this.setState({
         amt_paid: '',
-        ssn:''
+        pmt_date:''
       })
     }).catch (error => console.error({'Error': error}))
   }
@@ -50,15 +51,19 @@ export default class NewForm extends Component {
   //https://developer.mozilla.org/en-US/docs/Web/API/HTMLLabelElement/htmlFor
   // read more in htmlFor
   render () {
-    console.log(this.state.name)
+    console.log(this.state)
     return (
-      <form onSubmit={ (evt) => this.handleSubmit(evt) }>
-        <label htmlFor="amt_paid">Amount Paid: </label>
-        <input type="text" id="amt_paid" name="amt_paid" onChange={ (evt) => this.handleChange(evt) } value={ this.state.amt_paid } />
-        <label htmlFor="amt_paid">SSN: </label>
-        <input type="text" id="ssn" name="ssn" onChange={ (evt) => this.handleChange(evt) } value={ this.state.ssn.ssn } />
-        <input type="submit" value="Add" />
-      </form>
+      <>
+        <div>
+          <form onSubmit={ (evt) => this.handleSubmit(evt) }>
+            <label htmlFor="amt_paid">Amount Paid: </label>
+            <input type="text" id="amt_paid" name="amt_paid" onChange={ (evt) => this.handleChange(evt) } value={ this.state.amt_paid } /> <br/>
+            <label htmlFor="pmt_date">Date: </label>
+            <input required pattern="^\d{2}-\d{2}-\d{4}$" type="text" id="pmt_date" name="pmt_date" placeholder="MM-DD-YYYY" onChange={ (evt) => this.handleChange(evt) } value={ this.state.pmt_date } />
+            <input type="submit" value="Add" />
+          </form>
+        </div>
+      </>
     )
   }
 }

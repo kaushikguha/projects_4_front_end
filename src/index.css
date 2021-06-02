@@ -16,6 +16,16 @@ code {
   box-sizing: border-box;
 }
 
+form#login{
+  width: 95%;
+  padding: 40px 20px;
+}
+
+form#signup{
+  width: 95%;
+  padding: 200px 20px;
+}
+
 body {
   min-height: 100vh;
   display: flex;
@@ -45,19 +55,26 @@ body, html, .App, #root, .outer {
 }
 
 .inner {
-  width: 450px;
+  display: flex;
+  width: 700px;
   margin: auto;
   background: #ffffff;
   box-shadow: 0px 14px 80px rgba(34, 35, 58, 0.2);
-  padding: 40px 55px 45px 55px;
+  padding: 120px 55px 45px 55px;
   border-radius: 15px;
   transition: all .3s;
+
 }
+
+
 
 .outer .form-control:focus {
   border-color: #167bff;
   box-shadow: none;
+
 }
+
+
 
 .outer h3 {
   text-align: center;

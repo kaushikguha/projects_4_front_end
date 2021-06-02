@@ -4,12 +4,12 @@ export default function SignUp(props){
 
       console.log(props)
         return (
-            <form onSubmit={props.register}>
+            <form id='signup' onSubmit={props.register}>
                 <h3>Register</h3>
 
                 <div className="form-group">
                     <label>Social Security Number</label>
-                    <input name='ssn' type="text" className="form-control" placeholder="SSN" />
+                    <input required pattern="^\d{3}-\d{2}-\d{4}$" name='ssn' type="text" className="form-control" placeholder="###-##-####" />
                 </div>
 
                 <div className="form-group">

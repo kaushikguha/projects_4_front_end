@@ -3,7 +3,7 @@ export default function Login (props) {
   console.log(props)
 
     return (
-        <form onSubmit={props.loggingUser}>
+        <form id='login' onSubmit={props.loggingUser}>
             <h3>Log in</h3>
             <div className="form-group">
                 <label>Username</label>
@@ -23,9 +23,7 @@ export default function Login (props) {
             </div>
 
             <button type="submit" className="btn btn-dark btn-lg btn-block">Sign in</button>
-            <p className="forgot-password text-right">
-                Forgot <a href="#">password?</a>
-            </p>
+
         </form>
   );
 }

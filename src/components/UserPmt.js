@@ -1,38 +1,45 @@
-import React from "react";
+import React, { Component } from 'react'
 // import {useTable} from 'react-table';
+import Table from 'react-bootstrap/Table';
+import Button from 'react-bootstrap/Button';
 
-export default function UserPmt (props) {
+export default class UserPmt extends Component {
+
+  componentDidMount() {
+    this.props.appLogin()
+    this.props.getPmt()
+  }
 
 // const UserPmt=(props)=>{
-  console.log(props)
-
+  // console.log(props)
+  render(){
     return (
 
-      <table>
+  <Table striped bordered hover>
         <thead>
           <tr>
             <th>payment ID</th>
             <th>Amt Paid</th>
-            <th>SSN</th>
+            <th>Date</th>
             <th>Email</th>
-            <th> ""</th>
-            <th> ""</th>
+            <th> </th>
+            <th> </th>
           </tr>
         </thead>
         <tbody>
-          {props.pmt.map(pmt => {
+          {this.props.pmt.map(pmt => {
 
             return (
               <tr>
                 <td> {pmt.id}</td>
                 <td> {pmt.amt_paid}</td>
-                <td> {pmt.ssn.ssn}</td>
+                <td> {pmt.pmt_date}</td>
                 <td> {pmt.ssn.email}</td>
                 <td >
-                  <button onClick={() => props.deletePmt(pmt.id)}>DELETE</button>
+                  <Button variant="danger" onClick={() => this.props.deletePmt(pmt.id)}>DELETE</Button>
                 </td>
                 <td >
-                  <button onClick={()=>props.showEditForm(pmt)}>EDIT</button>
+                  <Button variant="secondary" onClick={()=>this.props.showEditForm(pmt)}>EDIT</Button>
                 </td>
 
               </tr>
@@ -40,8 +47,9 @@ export default function UserPmt (props) {
             })
           }
         </tbody>
-      </table>
+      </Table>
     )
+  }
 }
 
 // export default UserPmt

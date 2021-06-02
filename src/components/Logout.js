@@ -11,11 +11,11 @@ export default class Logout extends Component {
   }
 
 
-
   render () {
      return (
        <div className="container">
-         <Button variant="primary" onClick={() => this.props.logout()}>Sign Out</Button>
+        <h1> Thank you for using the app</h1>
+        <Button variant="primary" onClick={() => this.props.logout()}>Sign Out</Button>
       </div>
     );
    }
