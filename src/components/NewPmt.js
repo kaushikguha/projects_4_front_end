@@ -1,4 +1,7 @@
 import React, { Component } from 'react'
+import Table from 'react-bootstrap/Table';
+
+
 
 export default class NewForm extends Component {
   constructor (props) {
@@ -39,7 +42,7 @@ export default class NewForm extends Component {
       console.log(res)
       return res.json()
     }).then( data => {
-      this.props.addPmt(data)
+      this.props.getPmt()
       this.setState({
         amt_paid: '',
         pmt_date:''
@@ -51,16 +54,36 @@ export default class NewForm extends Component {
   //https://developer.mozilla.org/en-US/docs/Web/API/HTMLLabelElement/htmlFor
   // read more in htmlFor
   render () {
+    console.log(this.props)
     console.log(this.state)
     return (
       <>
-        <div>
+        <div >
+          <h1> Create new payment</h1>
           <form onSubmit={ (evt) => this.handleSubmit(evt) }>
-            <label htmlFor="amt_paid">Amount Paid: </label>
-            <input type="text" id="amt_paid" name="amt_paid" onChange={ (evt) => this.handleChange(evt) } value={ this.state.amt_paid } /> <br/>
-            <label htmlFor="pmt_date">Date: </label>
-            <input required pattern="^\d{2}-\d{2}-\d{4}$" type="text" id="pmt_date" name="pmt_date" placeholder="MM-DD-YYYY" onChange={ (evt) => this.handleChange(evt) } value={ this.state.pmt_date } />
-            <input type="submit" value="Add" />
+            <Table striped bordered hover>
+              <tr>
+                <td>
+                  <label htmlFor="amt_paid">Amount Paid: </label>
+                </td>
+                <td>
+                  <input type="text" id="amt_paid" name="amt_paid" onChange={ (evt) => this.handleChange(evt) } value={ this.state.amt_paid } /> <br/>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label htmlFor="pmt_date">Date: </label>
+                </td>
+                <td>
+                  <input required pattern="^\d{2}-\d{2}-\d{4}$" type="text" id="pmt_date" name="pmt_date" placeholder="MM-DD-YYYY" onChange={ (evt) => this.handleChange(evt) } value={ this.state.pmt_date } />
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <input type="submit" value="Add" />
+                </td>
+              </tr>
+            </Table>
           </form>
         </div>
       </>

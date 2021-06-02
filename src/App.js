@@ -162,7 +162,6 @@ class App extends Component{
 
 
   loggingUser= async (e) =>{
-    // const history= useHistory()
     console.log('logging User')
     e.preventDefault()
     const url = baseUrl + '/users/login'
@@ -252,6 +251,11 @@ class App extends Component{
     }
   }
 
+  componentDidMount() {
+    this.appLogin()
+    this.getPmt()
+  }
+
   render(){
     console.log(this.state)
     return (
@@ -292,7 +296,7 @@ class App extends Component{
                 <Route exact path='/'> <Home/></Route>
                 <Route exact path='/loginerror'> <LoginError/></Route>
                 <Route exact path='/registrationerror'> <RegistrationError/></Route>
-                <Route exact path='/newpmt' component= {()=> <NewPmt baseUrl={baseUrl} appLogin={this.appLogin} addPmt={this.addPmt}/>}/>
+                <Route exact path='/newpmt' component= {()=> <NewPmt baseUrl={baseUrl} appLogin={this.appLogin} addPmt={this.addPmt} getPmt={this.getPmt}/>}/>
                 <Route exact path='/logout' component= {()=> <Logout logout={this.logout} />}/>
                 <Route exact path='/pmt' component={() => <UserPmt pmt={this.state.pmt} getPmt={this.getPmt} deletePmt={this.deletePmt} showEditForm={this.showEditForm} appLogin={this.appLogin}/>}/>
                 <Route exact path='/sign-in' component= {()=> <Login loggingUser={this.loggingUser}/>}/>
@@ -301,7 +305,7 @@ class App extends Component{
             </div>
 
               {this.state.modalOpen &&
-                <div>
+                <div class='editform'>
                   <form onSubmit={this.handleSubmit}>
                     <table>
                       <tr>
