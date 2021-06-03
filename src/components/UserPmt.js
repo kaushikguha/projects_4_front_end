@@ -4,6 +4,9 @@ import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 
 export default class UserPmt extends Component {
+  constructor(props){
+    super(props)
+  }
 
   componentDidMount(){
 
