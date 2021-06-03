@@ -17,7 +17,7 @@ let baseUrl=""
 if(process.env.NODE_ENV=== 'development'){
   baseUrl='http://localhost:8002/api/v1'
 } else {
-  baseUrl='heroku url here'
+  baseUrl='https://employeedb-app.herokuapp.com/api/v1'
 }
 
 

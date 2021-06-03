@@ -27,7 +27,7 @@ export default class NewForm extends Component {
     this.props.appLogin()
     console.log(this.props)
     // fetch
-    fetch('http://localhost:8002/api/v1/pmt/', {
+    fetch(this.props.baseUrl + '/pmt/', {
       method: 'POST',
       body: JSON.stringify({
         amt_paid: e.target.amt_paid.value,
