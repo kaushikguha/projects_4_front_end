@@ -6,10 +6,11 @@ import Button from 'react-bootstrap/Button';
 export default class UserPmt extends Component {
 
   componentDidMount(){
-    
+
   }
 
   render(){
+    console.log(this.props.pmt)
     return (
       <div>
         <h1> All Payments</h1>
