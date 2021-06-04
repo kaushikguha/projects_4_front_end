@@ -69,7 +69,7 @@ class App extends Component{
         return res.json()
       }
       else {
-        return[]
+        return {data:[]}
       }
     }).then(data=> {
       this.setState({
