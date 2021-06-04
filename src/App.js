@@ -51,7 +51,7 @@ class App extends Component{
         })
     })
   }else {
-        return []
+        return {data:[]}
       }
     })
   }
