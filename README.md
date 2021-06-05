@@ -1,70 +1,66 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+[![General Assembly Logo](https://camo.githubusercontent.com/1a91b05b8f4d44b5bbfb83abac2b0996d8e26c92/687474703a2f2f692e696d6775722e636f6d2f6b6538555354712e706e67)](https://generalassemb.ly/education/web-development-immersive)
 
-## Available Scripts
 
-In the project directory, you can run:
+# Project IV Employee Database by Kaushik Guha
+#### Front End
 
-### `npm start`
+<p align="center">
+<img src="employees.jpeg" width="400">
+</p>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## User Story
 
-### `npm test`
+The Employee DB is a simple employee database that can store employee information and see what payments have been made to an employee.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+On the home screen of the app users can see details of the app. It is a non dynamic home screen.
+In the Nav bar, the employee should see log in or sign up tabs which allow the user to sign in or sign up respectively.
 
-### `npm run build`
+The app has a log in functionality where users can log in. Once logged in users have the ability to create new payments or edit/delete any existing payments. This database is designed for companies to allow users to enter any payments that may be due to them. This is a good starting point to potentially add functionality.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## The Front End (FE)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+For the FE we used REACT and styled it with Bootstrap as well as more traditional CSS elements. We also used application programming interface (API) which we discuss in the following section.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## The API
 
-### `npm run eject`
+The API for this particular website is to retrieve data from the backend.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## The Back End (BE)
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+For the backend we used Python Flask and contains the CRUD routes. Some of the routes we used include
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+1. GET to show a list of all payments
+2. PUT route to update payments
+3. DELETE route to destroy payments
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+There are other GET routes and POST routes for the users as well.
 
-## Learn More
+## Database
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+For the database to store all the data we have used PostgreSQL. is a free and open-source relational database management system (RDBMS) emphasizing extensibility and SQL compliance. It was originally named POSTGRES, referring to its origins as a successor to the Ingres database developed at the University of California, Berkeley. PostgreSQL features transactions with Atomicity, Consistency, Isolation, Durability (ACID) properties, automatically updatable views, materialized views, triggers, foreign keys, and stored procedures.[17] It is designed to handle a range of workloads, from single machines to data warehouses or Web services with many concurrent users. For further details please refer to:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+https://www.postgresql.org/
 
-### Code Splitting
+SQLite is an in-process library that implements a self-contained, serverless, zero-configuration, transactional SQL database engine. The code for SQLite is in the public domain and is thus free for use for any purpose, commercial or private. SQLite is the most widely deployed database in the world with more applications than we can count, including several high-profile projects.
+For further information please refer to:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+https://www.sqlite.org/index.html
 
-### Analyzing the Bundle Size
+##Deployment
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+The app was deployed using Heroku hobby version.
 
-### Making a Progressive Web App
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## Original Wire Frames
 
-### Advanced Configuration
+<p align='center'>
+<img src="public/WF1.png" width="400">  
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+<img src="public/WF2.png" width="400">
 
-### Deployment
+<img src="public/WF3.png" width="400">
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+<img src="public/WF4.png" width="400">
+</p>
