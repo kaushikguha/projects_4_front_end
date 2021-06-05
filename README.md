@@ -6,7 +6,7 @@
 #### Front End
 
 <p align="center">
-<img src="employees.jpeg" width="400">
+<img src="Happy-Employees.png" width="400">
 </p>
 
 
@@ -56,11 +56,15 @@ The app was deployed using Heroku hobby version.
 ## Original Wire Frames
 
 <p align='center'>
-<img src="public/WF1.png" width="400">  
+<img src="public/WF1.png" width="400">
+<br>
 
 <img src="public/WF2.png" width="400">
+<br>
 
 <img src="public/WF3.png" width="400">
+<br>
 
 <img src="public/WF4.png" width="400">
+<br>
 </p>
