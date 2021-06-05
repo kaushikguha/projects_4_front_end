@@ -6,7 +6,7 @@
 #### Front End
 
 <p align="center">
-<img src="Happy-Employees.png" width="400">
+<img src="public/Happy-Employees.png" width="400">
 </p>
 
 
